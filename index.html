@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        document.cookie = "username=LUNEGOV";
+    </script>
+    <style>
+        .items {
+            align-items: center;
+        }
+
+        .list_window {
+            border-radius: inherit;
+        }
+
+        .delete {
+            width: 70px;
+            height: 34px;
+            z-index: 100;
+        }
+
+        .delete:hover {
+            fill: red;
+            cursor: pointer;
+        }
+
+        .item {
+            word-wrap: anywhere;
+        }
+
+
+        .input-group {
+            justify-content: center;
+        }
+
+        #input_case:focus::placeholder {
+            color: transparent;
+        }
+
+
+        @media (max-width: 600px) {
+            #pole {
+                flex-direction: column;
+            }
+
+            #input_case {
+                width: 100%;
+                text-align: center;
+            }
+
+            #input_case:focus {
+                width: 100%;
+                text-align: left;
+            }
+
+            #input_case:focus::placeholder {
+                color: transparent;
+            }
+
+
+            .btn.btn-success {
+                width: 50%;
+                margin: auto;
+            }
+
+            .input-group-append {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="input-group mt-3 mb-3">
+        <div class='sample mx-5' style="width: 800px;">
+            <div id="pole" class="input-group mb-3">
+                <input v-on:keyup.enter="addCase" v-model="my_case" type="text" class="form-control text-wrap"
+                    placeholder="Задача" id="input_case">
+                <div class="input-group-append">
+                    <button v-on:click="addCase" class="btn btn-success" type="button">Добавить дело</button>
+                </div>
+            </div>
+            <hr v-if="todo_list.length">
+            <ul class="list-group items">
+                <li v-for="(element,index) in todo_list"
+                    class="list-group-item list-group-item-action list-group-item-success my-3 list_window position-relative">
+                    <svg class='position-absolute top-0 start-100 translate-middle delete'
+                        v-on:click="deleteCase(index)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                    </svg>
+                    <p class="item">
+                        {{element}}
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let a = new Vue({
+            el: '.sample',
+            data:
+            {
+                my_case: '',
+                todo_list: ["Hello From IBAS-2018"],
+            },
+            methods:
+            {
+                addCase() {
+                    if (this.my_case == "") {
+                        document.getElementById('input_case').style.borderColor = 'red';
+                        setTimeout(function () { document.getElementById('input_case').style.border = '1px solid #ced4da'; }, 1000);
+                    }
+                    else {
+                        this.todo_list.push(this.my_case);
+                        this.my_case = '';
+                    }
+                },
+                deleteCase(nomer) {
+                    this.todo_list.splice(nomer,1);
+                }
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
